@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>José Fabricio López Hernández</title>
+  <style>
+    :root {
+      --bg: #f4f6f2;
+      --surface: #ffffff;
+      --accent: #3d7a5c;
+      --accent-light: #e6f2ec;
+      --text: #1a1a1a;
+      --muted: #5a6b60;
+      --border: #d8e5dc;
+      --header-from: #4a9e8a;
+      --header-to: #7ab848;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #3d8c78 0%, #5aad6a 45%, #a8c840 100%);
+      border-bottom: none;
+      padding: 2.5rem 2rem 0;
+      max-width: 860px;
+      margin: 0 auto;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 4px 18px rgba(60,120,80,0.18);
+    }
+
+    .profile {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      flex-shrink: 0;
+      object-fit: cover;
+      object-position: center;
+      border: 3px solid rgba(255,255,255,0.7);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .profile-info h1 {
+      font-size: 1.7rem;
+      font-weight: normal;
+      letter-spacing: 0.01em;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .profile-info .role {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      margin-top: 0.2rem;
+    }
+
+    .profile-info .affiliation {
+      color: #fff;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      font-weight: bold;
+    }
+
+    .profile-links {
+      margin-top: 0.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      background: rgba(255,255,255,0.18);
+      padding: 0.15rem 0.55rem;
+      border-radius: 3px;
+      transition: background 0.15s;
+    }
+
+    .profile-links a:hover {
+      background: rgba(255,255,255,0.35);
+      text-decoration: none;
+    }
+
+    /* ── Tabs ── */
+    nav.tabs {
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      margin-top: 1rem;
+      background: transparent;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    nav.tabs button {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.75rem 1.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    nav.tabs button:hover { color: #fff; }
+
+    nav.tabs button.active {
+      color: #fff;
+      border-bottom-color: #fff;
+      font-weight: bold;
+    }
+
+    /* ── Content ── */
+    main {
+      max-width: 860px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Research tab ── */
+    .research-intro {
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .research-theme {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .research-theme h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .research-theme p { font-size: 0.95rem; color: #374151; }
+
+    /* ── Publications tab ── */
+    .pub-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .pub-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pub-year {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+    }
+
+    .pub-journal {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .pub-item h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .pub-item h3 a { color: var(--text); text-decoration: none; }
+    .pub-item h3 a:hover { color: var(--accent); text-decoration: underline; }
+
+    .pub-authors {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .pub-authors strong { color: var(--text); }
+
+    .pub-summary {
+      font-size: 0.92rem;
+      color: #374151;
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .pub-doi { margin-top: 0.6rem; font-size: 0.82rem; }
+    .pub-doi a { color: var(--accent); text-decoration: none; }
+    .pub-doi a:hover { text-decoration: underline; }
+
+    /* ── CV tab ── */
+    .cv-section { margin-bottom: 2rem; }
+
+    .cv-section h2 {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .cv-entry {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cv-year {
+      font-size: 0.82rem;
+      color: var(--muted);
+      min-width: 80px;
+      padding-top: 0.15rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .cv-body { font-size: 0.93rem; }
+    .cv-body strong { display: block; }
+    .cv-body span { color: var(--muted); font-size: 0.88rem; }
+
+    .award-badge {
+      display: inline-block;
+      background: #fef9c3;
+      color: #854d0e;
+      font-size: 0.78rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Contact tab ── */
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      max-width: 480px;
+    }
+
+    .contact-card p { margin-bottom: 1rem; font-size: 0.97rem; }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .contact-row:last-child { border-bottom: none; }
+
+    .contact-icon { width: 1.4rem; text-align: center; color: var(--accent); }
+
+    .contact-row a { color: var(--accent); text-decoration: none; }
+    .contact-row a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      .profile { flex-direction: column; align-items: center; text-align: center; }
+      .profile-links { justify-content: center; }
+      nav.tabs button { padding: 0.6rem 0.8rem; font-size: 0.85rem; }
+      .cv-entry { flex-direction: column; gap: 0.25rem; }
+      .cv-year { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="profile">
+    <img class="avatar" src="Fibo.png" alt="José Fabricio López Hernández" />
+    <div class="profile-info">
+      <h1>José Fabricio López Hernández</h1>
+      <p class="role">Postdoctoral Scholar &middot; Department of Ecology and Evolution</p>
+      <p class="affiliation">Thornton Lab &mdash; University of Chicago</p>
+      <div class="profile-links">
+        <a href="mailto:jfabriciolh@uchicago.edu">jfabriciolh@uchicago.edu</a>
+        <a href="https://orcid.org/0000-0003-2633-3690" target="_blank" rel="noopener">ORCID</a>
+        <a href="https://github.com/fibonaccio" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://voices.uchicago.edu/thorntonlab/people/" target="_blank" rel="noopener">Thornton Lab</a>
+      </div>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button class="active" role="tab" onclick="show('research',this)">Research</button>
+    <button role="tab" onclick="show('publications',this)">Publications</button>
+    <button role="tab" onclick="show('cv',this)">CV</button>
+    <button role="tab" onclick="show('contact',this)">Contact</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ── RESEARCH ── -->
+  <section id="research" class="tab-panel active" role="tabpanel">
+    <p class="research-intro">
+      My work centers on understanding the <strong>evolution of molecular interactions</strong>.
+      Using ancestral protein reconstruction, high-throughput functional assays, and
+      quantitative computational frameworks, I investigate the genetic mechanisms that
+      drive the emergence, maintenance, or disruption of molecular interactions. My
+      overarching goal is to identify the genetic determinants of the strength and
+      specificity of interactions among biological molecules.
+    </p>
+
+    <div class="research-theme">
+      <h3>Ancestral Sequence Reconstruction &amp; Neofunctionalization</h3>
+      <p>
+        By assaying the transcriptional activation phenotypes of thousands of combinatorial
+        variants spanning the sequence space between ancestral nuclear receptors AncSR1 and
+        AncSR2, I am producing the first comprehensive map of how protein function changes
+        across a complete ancestral neofunctionalization. This work characterizes every
+        protein sequence background that permits or prohibits the gain of a new DNA-binding
+        specificity and reveals plausible mutational paths through sequence space.
+      </p>
+    </div>
+
+    <div class="research-theme">
+      <h3>Genotype–Phenotype Landscapes &amp; Evolutionary Trajectories</h3>
+      <p>
+        By characterizing the full genotype-to-phenotype map of the AncSR1&rarr;AncSR2
+        transition, I identify which substitutions caused the functional shift, quantify
+        each substitution's phenotypic effect, determine the minimum number of mutations
+        required, and reconstruct the specific mutational orders that allow the transition.
+        I develop geometric frameworks for quantifying phenotypic change across sequence
+        space.
+      </p>
+    </div>
+
+    <div class="research-theme">
+      <h3>Meiotic Drive &amp; Selfish Genetic Elements</h3>
+      <p>
+        During my Ph.D. with Sarah Zanders at the Stowers Institute, I studied
+        <em>wtf</em> killer meiotic drivers in fission yeast
+        (<em>Schizosaccharomyces pombe</em>)&mdash;selfish genes that bias their own
+        transmission by destroying spores that did not inherit them. I combined
+        mathematical modeling, experimental evolution, and population genetics to
+        understand how mating systems and multi-driver competition shape driver spread
+        and extinction.
+      </p>
+    </div>
+
+    <div class="research-theme">
+      <h3>Computational &amp; Quantitative Methods</h3>
+      <p>
+        Across projects I build and apply computational tools&mdash;population genetics
+        models, high-throughput sequence-function pipelines, and statistical
+        frameworks&mdash;to link molecular variation to evolutionary outcomes. I also
+        teach bioinformatics and R/Bioconductor methods.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── PUBLICATIONS ── -->
+  <section id="publications" class="tab-panel" role="tabpanel">
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2024</span>
+        <span class="pub-journal">G3: Genes | Genomes | Genetics</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.1093/g3journal/jkae142" target="_blank" rel="noopener">
+          Modeling the evolution of <em>Schizosaccharomyces pombe</em> populations
+          with multiple killer meiotic drivers
+        </a>
+      </h3>
+      <p class="pub-authors">
+        <strong>López Hernández JF</strong>, Rubinstein BY, Unckless RL, Zanders SE
+      </p>
+      <p class="pub-summary">
+        What happens when a genome carries more than one killer meiotic driver?
+        Using <em>wtf</em> genes as a model, this study shows that duplicate drivers
+        can spread under most conditions, especially when they diverge into distinct
+        variants. Identical duplicates spread more slowly than their parent, while
+        divergent drivers typically both reach fixation. Under specific combinations of
+        recombination and transmission strength, both can be lost. The results explain
+        how natural driver gene families expand and inform synthetic gene drive design.
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.1093/g3journal/jkae142" target="_blank" rel="noopener">10.1093/g3journal/jkae142</a></p>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2021</span>
+        <span class="pub-journal">eLife</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.7554/eLife.70812" target="_blank" rel="noopener">
+          Diverse mating phenotypes impact the spread of <em>wtf</em> meiotic drivers
+          in <em>Schizosaccharomyces pombe</em>
+        </a>
+      </h3>
+      <p class="pub-authors">
+        <strong>López Hernández JF</strong>, Helston RM, Lange JJ, Eickbush MT,
+        Billmyre RB, Schaffner SH, McCroskey S, Zanders SE
+      </p>
+      <p class="pub-summary">
+        Meiotic drivers depend on outcrossing to spread, yet <em>S. pombe</em> is
+        thought to predominantly self. By measuring mating propensities across diverse
+        natural isolates, this study found that outcrossing rates vary substantially
+        and respond to cell density and partner availability. Mathematical modeling and
+        experimental evolution showed that observed selfing levels slow&mdash;but do
+        not prevent&mdash;driver spread, explaining how <em>wtf</em> drivers persist
+        despite frequent inbreeding. <em>(Hamilton Award Finalist, SSE 2021)</em>
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.7554/eLife.70812" target="_blank" rel="noopener">10.7554/eLife.70812</a></p>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2020</span>
+        <span class="pub-journal">Microbial Cell Factories</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.1186/s12934-020-01326-z" target="_blank" rel="noopener">
+          Assessment of the <em>ptxD</em> gene as a growth and selective marker in
+          <em>Trichoderma atroviride</em> using Pccg6
+        </a>
+      </h3>
+      <p class="pub-authors">
+        Carreras-Villaseñor N, Rico-Ruiz JG, Chávez Montes RA, Yong-Villalobos L,
+        <strong>López-Hernández JF</strong>, Martínez-Hernández P, Herrera-Estrella L,
+        Herrera-Estrella A, López-Arredondo D
+      </p>
+      <p class="pub-summary">
+        This study evaluated the phosphite dehydrogenase gene <em>ptxD</em> as a
+        selectable marker in the biocontrol fungus <em>Trichoderma atroviride</em>,
+        demonstrating its utility for stable transformation under phosphite selection.
+        The work contributes a new genetic tool for engineering this agriculturally
+        important fungus.
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.1186/s12934-020-01326-z" target="_blank" rel="noopener">10.1186/s12934-020-01326-z</a></p>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2018</span>
+        <span class="pub-journal">Yeast</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.1002/yea.3305" target="_blank" rel="noopener">
+          Veni, vidi, vici: the success of <em>wtf</em> meiotic drivers in fission yeast
+        </a>
+      </h3>
+      <p class="pub-authors">
+        <strong>López Hernández JF</strong>, Zanders SE
+      </p>
+      <p class="pub-summary">
+        A review examining why <em>wtf</em> genes are among the most successful
+        meiotic drivers known, discussing the poison&ndash;antidote mechanism by which
+        they selectively destroy non-carrier spores, their rapid evolutionary
+        diversification, and the ecological and genetic conditions that sustain them
+        in <em>S. pombe</em> populations.
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.1002/yea.3305" target="_blank" rel="noopener">10.1002/yea.3305</a></p>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2016</span>
+        <span class="pub-journal">BMC Genomics</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.1186/s12864-016-2952-3" target="_blank" rel="noopener">
+          Global transcriptional analysis suggests <em>Lasiodiplodia theobromae</em>
+          pathogenicity factors in modulation of grapevine defensive response
+        </a>
+      </h3>
+      <p class="pub-authors">
+        Paolinelli-Alfonso M, Villalobos-Escobedo JM, Rolshausen P, Herrera-Estrella A,
+        Galindo-Sánchez C, <strong>López-Hernández JF</strong>, Hernandez-Martinez R
+      </p>
+      <p class="pub-summary">
+        RNA-seq-based transcriptome profiling of the interaction between the fungal
+        pathogen <em>Lasiodiplodia theobromae</em> and grapevine, identifying candidate
+        effector genes and host defense pathways modulated during infection. This work
+        provides a genomic foundation for understanding trunk disease in viticulture.
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.1186/s12864-016-2952-3" target="_blank" rel="noopener">10.1186/s12864-016-2952-3</a></p>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2014</span>
+        <span class="pub-journal">Journal of Proteomics</span>
+      </div>
+      <h3>
+        <a href="https://doi.org/10.1016/j.jprot.2014.03.003" target="_blank" rel="noopener">
+          Plug and Play Assembly of a Low-Temperature Plasma Ionization Mass Spectrometry
+          Imaging (LTP-MSI) System
+        </a>
+      </h3>
+      <p class="pub-authors">
+        Maldonado-Torres M, <strong>López-Hernández JF</strong>, Jiménez-Sandoval P,
+        Winkler R
+      </p>
+      <p class="pub-summary">
+        Description and validation of a low-cost, modular mass spectrometry imaging
+        system based on low-temperature plasma ionization, enabling direct metabolite
+        imaging from biological surfaces without sample preparation. Demonstrated
+        applications in plant and food tissue imaging.
+      </p>
+      <p class="pub-doi">DOI: <a href="https://doi.org/10.1016/j.jprot.2014.03.003" target="_blank" rel="noopener">10.1016/j.jprot.2014.03.003</a></p>
+    </div>
+
+  </section>
+
+  <!-- ── CV ── -->
+  <section id="cv" class="tab-panel" role="tabpanel">
+
+    <div class="cv-section">
+      <h2>Current Position</h2>
+      <div class="cv-entry">
+        <div class="cv-year">2022–present</div>
+        <div class="cv-body">
+          <strong>Postdoctoral Scholar</strong>
+          <span>Thornton Lab, Dept. of Ecology and Evolution, University of Chicago</span>
+          <span>Advisor: Joseph W. Thornton, Ph.D.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-section">
+      <h2>Education</h2>
+      <div class="cv-entry">
+        <div class="cv-year">2016–2022</div>
+        <div class="cv-body">
+          <strong>Ph.D. in Biology</strong>
+          <span>Stowers Institute for Medical Research, Kansas City, MO</span>
+          <span>Dissertation: <em>Spread and Extinction of Poison–Antidote Meiotic Drivers</em></span>
+          <span>Advisor: Sarah E. Zanders, Ph.D.</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2013–2015</div>
+        <div class="cv-body">
+          <strong>M.Sc., Biological Sciences</strong>
+          <span>CINVESTAV, Irapuato, Guanajuato, Mexico</span>
+          <span>Thesis: Transcriptomic Analysis during Photoconidiation in <em>Trichoderma atroviride</em></span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2008–2012</div>
+        <div class="cv-body">
+          <strong>B.Sc., Genomic Sciences — Graduated with Honors</strong>
+          <span>National Autonomous University of Mexico (UNAM), Mexico City</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-section">
+      <h2>Selected Awards &amp; Honors</h2>
+      <div class="cv-entry">
+        <div class="cv-year">2023</div>
+        <div class="cv-body">
+          <strong>Hanna Gray Fellowship Finalist</strong>
+          <span>Howard Hughes Medical Institute</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2021</div>
+        <div class="cv-body">
+          <strong>Hamilton Award Finalist</strong>
+          <span>Society for the Study of Evolution</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2011–2012</div>
+        <div class="cv-body">
+          <strong>Gold Medal &times;2, iGEM Competition</strong>
+          <span>Team UNAM-Genomics Mexico (2010 &amp; 2011)</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2012</div>
+        <div class="cv-body">
+          <strong>Honorable Mention, B.Sc. in Genomic Sciences</strong>
+          <span>National Autonomous University of Mexico</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-section">
+      <h2>Teaching</h2>
+      <div class="cv-entry">
+        <div class="cv-year">2023</div>
+        <div class="cv-body">
+          <strong>Course Design and College Teaching (Auditor)</strong>
+          <span>University of Chicago</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2018–2019</div>
+        <div class="cv-body">
+          <strong>Teaching Assistant — Genetics &amp; Honors Genetics</strong>
+          <span>Stowers / UMKC</span>
+        </div>
+      </div>
+      <div class="cv-entry">
+        <div class="cv-year">2015</div>
+        <div class="cv-body">
+          <strong>Workshop Instructor — Introduction to R/Bioconductor</strong>
+          <span>CICESE, Ensenada, Mexico</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact" class="tab-panel" role="tabpanel">
+    <div class="contact-card">
+      <p>I am always happy to discuss molecular evolution, ancestral reconstruction,
+         meiotic drive, or anything at the intersection of genetics and computation.
+         Feel free to reach out.</p>
+
+      <div class="contact-row">
+        <span class="contact-icon">&#9993;</span>
+        <a href="mailto:jfabriciolh@uchicago.edu">jfabriciolh@uchicago.edu</a>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">&#128196;</span>
+        <a href="https://voices.uchicago.edu/thorntonlab/people/" target="_blank" rel="noopener">
+          Thornton Lab, University of Chicago
+        </a>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">&#128279;</span>
+        <a href="https://github.com/fibonaccio" target="_blank" rel="noopener">
+          github.com/fibonaccio
+        </a>
+      </div>
+
+      <div class="contact-row">
+        <span class="contact-icon">&#128218;</span>
+        <a href="https://orcid.org/0000-0003-2633-3690" target="_blank" rel="noopener">
+          ORCID: 0000-0003-2633-3690
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  &copy; <span id="yr"></span> José Fabricio López Hernández
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  function show(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav.tabs button').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+</script>
+
+</body>
+</html>
